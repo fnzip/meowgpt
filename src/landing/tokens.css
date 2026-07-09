@@ -86,23 +86,21 @@ body {
   background: var(--color-paper);
 }
 
-/* Nav — N5 Floating pill */
+/* Nav — N1b full-width fixed top bar */
 .nav {
   position: fixed;
-  top: var(--space-lg);
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  padding: var(--space-sm) var(--space-lg);
-  background: oklch(100% 0 0 / 0.85);
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-xl);
+  background: oklch(100% 0 0 / 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--color-border-hairline);
 }
 
 .nav-brand {
@@ -579,9 +577,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .nav {
-    top: var(--space-md);
     padding: var(--space-xs) var(--space-md);
-    gap: var(--space-md);
   }
 
   .nav-links {
@@ -626,10 +622,7 @@ body {
   }
 
   .nav {
-    left: var(--space-md);
-    right: var(--space-md);
-    transform: none;
-    justify-content: space-between;
+    padding: var(--space-xs) var(--space-md);
   }
 }
 
