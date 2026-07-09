@@ -15,10 +15,23 @@ function getChunkDelay(req: ChatCompletionRequest): number {
   return req.delay_ms != null ? Math.max(10, req.delay_ms / 4) : DEFAULT_CHUNK_DELAY_MS;
 }
 
+function extractText(content: unknown): string {
+  if (typeof content === "string") return content.trim();
+  if (Array.isArray(content)) {
+    return content
+      .filter(
+        (p): p is { type: "text"; text: string } =>
+          typeof p === "object" && p !== null && "type" in p && p.type === "text" && "text" in p
+      )
+      .map((p) => p.text)
+      .join(" ");
+  }
+  return "";
+}
+
 function buildResponseContent(req: ChatCompletionRequest): string {
   const lastMsg = req.messages[req.messages.length - 1];
-  const userContent =
-    typeof lastMsg?.content === "string" ? lastMsg.content.trim() : "";
+  const userContent = extractText(lastMsg?.content);
 
   if (!userContent) return "Meow meow 🐱";
 
@@ -87,7 +100,7 @@ function countTokens(text: string): number {
 
 function computeUsage(req: ChatCompletionRequest, responseContent: string): Usage {
   const promptText = req.messages
-    .map((m) => (typeof m.content === "string" ? m.content : ""))
+    .map((m) => extractText(m.content))
     .join(" ");
   const promptTokens = countTokens(promptText);
   const completionTokens = countTokens(responseContent);

@@ -2,7 +2,18 @@ import { z } from "zod";
 
 export const messageSchema = z.object({
   role: z.enum(["system", "user", "assistant", "function", "tool"]),
-  content: z.string().nullable().optional(),
+  content: z
+    .union([
+      z.string(),
+      z.null(),
+      z.array(
+        z.object({
+          type: z.literal("text"),
+          text: z.string(),
+        })
+      ),
+    ])
+    .optional(),
   name: z.string().optional(),
   function_call: z
     .object({
