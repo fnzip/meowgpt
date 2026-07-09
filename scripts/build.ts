@@ -39,11 +39,13 @@ if (!routesResult.success) {
 // Copy landing CSS (static asset for npm)
 await Bun.write("dist/landing/tokens.css", Bun.file("src/landing/tokens.css"));
 
-// Copy package.json for npm publish (strip dev fields)
+// Copy package.json for npm publish (strip dev fields, fix bin path)
 const pkg = await Bun.file("package.json").json();
 delete pkg.scripts;
 delete pkg.devDependencies;
 delete pkg.peerDependencies;
+// npm-publish uses dist/ as root, so bin path is relative to dist/
+pkg.bin = { meowgpt: "./cli/index.js" };
 await Bun.write("dist/package.json", JSON.stringify(pkg, null, 2) + "\n");
 
 // Copy README
