@@ -1,3 +1,4 @@
+/** @jsxImportSource hono/jsx */
 import { Hono } from "hono";
 import { z } from "zod";
 import { chatCompletionRequestSchema } from "../schemas/chat";
@@ -5,8 +6,24 @@ import { imageGenerationRequestSchema } from "../schemas/image";
 import { buildChatCompletion, streamChatCompletion } from "../handlers/chat";
 import { buildModelsResponse } from "../handlers/models";
 import { buildImageGeneration } from "../handlers/image";
+import { renderLandingPage } from "../landing/page";
 
 const app = new Hono();
+
+// Landing page
+app.get("/", (c) => {
+  return c.html(renderLandingPage());
+});
+
+// Static CSS for landing
+app.get("/landing/tokens.css", async (c) => {
+  const css = await Bun.file(
+    new URL("../landing/tokens.css", import.meta.url)
+  ).text();
+  return new Response(css, {
+    headers: { "Content-Type": "text/css; charset=utf-8" },
+  });
+});
 
 // GET /v1/models
 app.get("/v1/models", (c) => {
