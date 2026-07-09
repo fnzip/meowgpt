@@ -20,6 +20,8 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      - run: bun scripts/generate-tokens.ts
+
       - run: bun run typecheck
 
       - run: bun test
