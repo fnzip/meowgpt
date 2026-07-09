@@ -77,7 +77,12 @@ export function renderApi(): string {
       },
       "finish_reason": "stop"
     }
-  ]
+  ],
+  "usage": {
+    "prompt_tokens": 2,
+    "completion_tokens": 3,
+    "total_tokens": 5
+  }
 }</pre>
         </div>
 
@@ -93,7 +98,7 @@ data: {"id":"chatcmpl_mock","object":"chat.completion.chunk","created":123456789
 
 data: {"id":"chatcmpl_mock","object":"chat.completion.chunk","created":123456789,"model":"meowgpt","choices":[{"index":0,"delta":{"content":" 🐱"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl_mock","object":"chat.completion.chunk","created":123456789,"model":"meowgpt","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+data: {"id":"chatcmpl_mock","object":"chat.completion.chunk","created":123456789,"model":"meowgpt","choices":[{"index":0,"delta":{},"finish_reason":"stop"}],"usage":{"prompt_tokens":2,"completion_tokens":3,"total_tokens":5}}
 
 data: [DONE]</pre>
         </div>
