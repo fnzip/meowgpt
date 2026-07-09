@@ -14,28 +14,28 @@ describe("buildChatCompletion", () => {
     expect(res.model).toBe("meowgpt");
     expect(res.choices).toHaveLength(1);
     expect(res.choices[0]!.message.role).toBe("assistant");
-    expect(res.choices[0]!.message.content).toContain("Meow meow 🐱");
+    expect(res.choices[0]!.message.content.length).toBeGreaterThan(0);
     expect(res.choices[0]!.finish_reason).toBe("stop");
   });
 
-  it("echoes short user messages", async () => {
+  it("echoes non-greeting short messages", async () => {
     const res = await buildChatCompletion({
       model: "meowgpt",
-      messages: [{ role: "user", content: "hi" }],
+      messages: [{ role: "user", content: "test" }],
       stream: false,
     });
 
-    expect(res.choices[0]!.message.content).toContain("hi");
+    expect(res.choices[0]!.message.content).toContain("test");
   });
 
-  it("responds to questions differently", async () => {
+  it("responds to questions", async () => {
     const res = await buildChatCompletion({
       model: "meowgpt",
       messages: [{ role: "user", content: "what is this?" }],
       stream: false,
     });
 
-    expect(res.choices[0]!.message.content).toContain("great question");
+    expect(res.choices[0]!.message.content.length).toBeGreaterThan(0);
   });
 
   it("handles long messages", async () => {
@@ -51,7 +51,21 @@ describe("buildChatCompletion", () => {
       stream: false,
     });
 
-    expect(res.choices[0]!.message.content).toContain("detailed message");
+    expect(res.choices[0]!.message.content.length).toBeGreaterThan(0);
+  });
+
+  it("returns different responses for same input", async () => {
+    const results = new Set<string>();
+    for (let i = 0; i < 10; i++) {
+      const res = await buildChatCompletion({
+        model: "meowgpt",
+        messages: [{ role: "user", content: "test" }],
+        stream: false,
+      });
+      results.add(res.choices[0]!.message.content);
+    }
+    // Should get at least 2 different responses from 10 calls
+    expect(results.size).toBeGreaterThanOrEqual(2);
   });
 });
 
@@ -68,12 +82,10 @@ describe("streamChatCompletion", () => {
 
     expect(chunks.length).toBeGreaterThanOrEqual(3);
 
-    // First chunk: role
     expect(chunks[0]!.object).toBe("chat.completion.chunk");
     expect(chunks[0]!.choices[0]!.delta.role).toBe("assistant");
     expect(chunks[0]!.choices[0]!.finish_reason).toBeNull();
 
-    // Last chunk: finish_reason
     const last = chunks[chunks.length - 1]!;
     expect(last.choices[0]!.finish_reason).toBe("stop");
     expect(last.choices[0]!.delta.content).toBeUndefined();

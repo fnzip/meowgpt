@@ -12,7 +12,9 @@ function getDelay(req: ChatCompletionRequest): number {
 }
 
 function getChunkDelay(req: ChatCompletionRequest): number {
-  return req.delay_ms != null ? Math.max(10, req.delay_ms / 4) : DEFAULT_CHUNK_DELAY_MS;
+  return req.delay_ms != null
+    ? Math.max(10, req.delay_ms / 4)
+    : DEFAULT_CHUNK_DELAY_MS;
 }
 
 function extractText(content: unknown): string {
@@ -21,7 +23,11 @@ function extractText(content: unknown): string {
     return content
       .filter(
         (p): p is { type: "text"; text: string } =>
-          typeof p === "object" && p !== null && "type" in p && p.type === "text" && "text" in p
+          typeof p === "object" &&
+          p !== null &&
+          "type" in p &&
+          p.type === "text" &&
+          "text" in p
       )
       .map((p) => p.text)
       .join(" ");
@@ -29,28 +35,111 @@ function extractText(content: unknown): string {
   return "";
 }
 
+function pickRandom(arr: string[]): string {
+  return arr[Math.floor(Math.random() * arr.length)]!;
+}
+
+const MEOW_REPLIES = [
+  "Meow meow",
+  "Purrrr...",
+  "Meow!",
+  "Mrrrrow?",
+  "Meow meow meow!",
+];
+
+const GREETING_REPLIES = [
+  "Meow! Nice to see you",
+  "Hey there! Meow meow",
+  "Oh hi! *purrs*",
+  "Hello! Ready to build something?",
+  "Meow! What can I help with today?",
+];
+
+const QUESTION_REPLIES = [
+  "That's a great question! Let me think... Meow meow",
+  "Hmm, interesting! I'd say... meow?",
+  "Good one! The answer is probably 42. Or meow.",
+  "You ask the tough questions! Meow meow",
+  "Let me consult the cat council... they say meow",
+];
+
+const THANKS_REPLIES = [
+  "You're welcome! Meow",
+  "Anytime! *happy purr*",
+  "No problem at all! Meow meow",
+  "Aw thanks for saying thanks!",
+];
+
+const LAUGH_REPLIES = [
+  "Hehe, meow meow!",
+  "Glad I could make you laugh!",
+  "Meow haha! You're fun",
+  "*purrs in amusement*",
+];
+
+const CAT_REPLIES = [
+  "You speak the sacred language! Meow meow meow!",
+  "Mew mew! A fellow cat enthusiast",
+  "Purrrrr... you get it",
+  "Meow! That's my favorite word",
+  "Mrow! *tail flick*",
+];
+
+const LONG_REPLIES = [
+  "Thank you for the detailed message! I've processed your input and here's my response: Meow meow",
+  "That's quite a lot to take in! Let me digest that... Meow!",
+  "I appreciate the thorough explanation. My considered response: meow meow",
+  "Wow, that's comprehensive! After careful analysis: meow",
+];
+
+const ECHO_REPLIES = [
+  'I see you said "{msg}". Meow meow',
+  'Got it! "{msg}" - interesting! Meow',
+  'Ah, "{msg}"! Let me think about that... meow',
+  'Hmm, "{msg}". Noted! Meow meow',
+  'You mentioned "{msg}". Fascinating! Meow',
+  'Right, "{msg}". I am on it! Meow',
+];
+
 function buildResponseContent(req: ChatCompletionRequest): string {
   const lastMsg = req.messages[req.messages.length - 1];
   const userContent = extractText(lastMsg?.content);
 
-  if (!userContent) return "Meow meow 🐱";
+  if (!userContent) return pickRandom(MEOW_REPLIES);
 
   const lower = userContent.toLowerCase();
 
   if (lower.includes("?")) {
-    return "That's a great question! Let me think about it... Meow meow 🐱";
+    return pickRandom(QUESTION_REPLIES);
   }
 
-  if (lower.length < 10) {
-    return `I see you said "${userContent}". Meow meow 🐱`;
+  if (/^(hi|hey|hello|yo|sup|howdy|greetings)\b/.test(lower)) {
+    return pickRandom(GREETING_REPLIES);
+  }
+
+  if (/\b(thanks|thank you|thx|ty)\b/.test(lower)) {
+    return pickRandom(THANKS_REPLIES);
+  }
+
+  if (/\b(haha|lol|lmao|hehe|rofl)\b/.test(lower)) {
+    return pickRandom(LAUGH_REPLIES);
+  }
+
+  if (/\b(meow|mew|miau|mewo|cat|kitty|feline)\b/i.test(lower)) {
+    return pickRandom(CAT_REPLIES);
   }
 
   const wordCount = userContent.split(/\s+/).length;
   if (wordCount > 20) {
-    return `Thank you for the detailed message. I've processed your input and here's my response: Meow meow 🐱`;
+    return pickRandom(LONG_REPLIES);
   }
 
-  return `Got it! You mentioned "${userContent.slice(0, 40)}${userContent.length > 40 ? "..." : ""}". Meow meow 🐱`;
+  return pickRandom(ECHO_REPLIES).replace(
+    "{msg}",
+    userContent.length > 40
+      ? userContent.slice(0, 40) + "..."
+      : userContent
+  );
 }
 
 interface Usage {
@@ -94,11 +183,13 @@ interface ChatCompletionChunk {
 }
 
 function countTokens(text: string): number {
-  // ~4 chars per token for English text
   return Math.max(1, Math.ceil(text.length / 4));
 }
 
-function computeUsage(req: ChatCompletionRequest, responseContent: string): Usage {
+function computeUsage(
+  req: ChatCompletionRequest,
+  responseContent: string
+): Usage {
   const promptText = req.messages
     .map((m) => extractText(m.content))
     .join(" ");
@@ -148,10 +239,8 @@ export async function* streamChatCompletion(
   const chunkDelay = getChunkDelay(req);
   const usage = computeUsage(req, content);
 
-  // Initial thinking delay
   await sleep(chunkDelay * 2);
 
-  // First chunk with role
   yield {
     id: MOCK_ID,
     object: "chat.completion.chunk",
@@ -169,12 +258,10 @@ export async function* streamChatCompletion(
 
   await sleep(chunkDelay);
 
-  // Tokenize by words + punctuation for natural-feeling chunks
   const tokens = content.match(/\S+\s*/g) ?? [content];
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]!;
-    // Vary delay slightly per token for realism
     const jitter = (Math.random() - 0.5) * chunkDelay * 0.4;
     await sleep(Math.max(10, chunkDelay + jitter));
 
@@ -196,7 +283,6 @@ export async function* streamChatCompletion(
 
   await sleep(chunkDelay);
 
-  // Final chunk with finish_reason + usage
   yield {
     id: MOCK_ID,
     object: "chat.completion.chunk",
