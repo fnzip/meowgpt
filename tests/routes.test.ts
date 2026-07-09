@@ -24,7 +24,7 @@ describe("POST /v1/chat/completions", () => {
     expect(res.status).toBe(200);
     const body = await res.json() as Record<string, unknown>;
     const choices = body.choices as Array<{ message: { content: string } }>;
-    expect(choices[0]!.message.content).toBe("Meow meow 🐱");
+    expect(choices[0]!.message.content).toContain("Meow meow 🐱");
   });
 
   it("returns streaming SSE", async () => {

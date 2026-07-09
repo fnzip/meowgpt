@@ -37,6 +37,22 @@ console.log(chat.choices[0].message.content);</pre></div>
           <div class="response-block-label">response</div>
           <pre>Meow meow 🐱</pre>
         </div>
+
+        <h3>curl</h3>
+        <div class="code-frame">
+          <div class="code-frame-header">
+            <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
+            <span class="code-frame-label">terminal</span>
+          </div>
+          <div class="code-frame-body"><pre>$ curl http://localhost:8787/v1/chat/completions \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"meowgpt","messages":[{"role":"user","content":"hello"}]}'
+
+{
+  "id": "chatcmpl_mock",
+  "choices": [{ "message": { "content": "Meow meow 🐱" } }]
+}</pre></div>
+        </div>
       </div>
 
       <div class="workbench-section">
@@ -96,15 +112,6 @@ console.log(image.data[0].url);
 {
   "object": "list",
   "data": [{ "id": "meowgpt", "object": "model", "owned_by": "meowgpt" }]
-}
-
-$ curl http://localhost:8787/v1/chat/completions \\
-  -H "Content-Type: application/json" \\
-  -d '{"model":"meowgpt","messages":[{"role":"user","content":"hello"}]}'
-
-{
-  "id": "chatcmpl_mock",
-  "choices": [{ "message": { "content": "Meow meow 🐱" } }]
 }</pre></div>
         </div>
       </div>

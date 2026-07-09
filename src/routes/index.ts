@@ -73,8 +73,8 @@ app.post("/v1/chat/completions", async (c) => {
   if (req.stream) {
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
-      start(controller) {
-        for (const chunk of streamChatCompletion(req)) {
+      async start(controller) {
+        for await (const chunk of streamChatCompletion(req)) {
           const data = `data: ${JSON.stringify(chunk)}\n\n`;
           controller.enqueue(encoder.encode(data));
         }
@@ -92,7 +92,7 @@ app.post("/v1/chat/completions", async (c) => {
     });
   }
 
-  return c.json(buildChatCompletion(req));
+  return c.json(await buildChatCompletion(req));
 });
 
 // POST /v1/images/generations
