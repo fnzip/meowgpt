@@ -10,6 +10,7 @@ import { renderHome } from "../landing/home";
 import { renderInstall } from "../landing/install";
 import { renderUsage } from "../landing/usage";
 import { renderApi } from "../landing/api";
+import { TOKENS_CSS } from "../landing/tokens-css";
 
 const app = new Hono();
 
@@ -19,12 +20,9 @@ app.get("/install", (c) => c.html(renderInstall()));
 app.get("/usage", (c) => c.html(renderUsage()));
 app.get("/api", (c) => c.html(renderApi()));
 
-// Static CSS for landing
-app.get("/landing/tokens.css", async (c) => {
-  const css = await Bun.file(
-    new URL("../landing/tokens.css", import.meta.url)
-  ).text();
-  return new Response(css, {
+// Static CSS for landing (inlined for cross-platform)
+app.get("/landing/tokens.css", (c) => {
+  return new Response(TOKENS_CSS, {
     headers: { "Content-Type": "text/css; charset=utf-8" },
   });
 });
