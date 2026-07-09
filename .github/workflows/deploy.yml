@@ -23,7 +23,7 @@ jobs:
 
       - run: bun test
 
-      - run: bun run scripts/generate-tokens.ts
+      - run: bun scripts/generate-tokens.ts
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3

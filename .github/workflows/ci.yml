@@ -22,6 +22,6 @@ jobs:
 
       - run: bun test
 
-      - run: bun run scripts/generate-tokens.ts
+      - run: bun scripts/generate-tokens.ts
 
-      - run: bun run scripts/build.ts
+      - run: bun scripts/build.ts
