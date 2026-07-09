@@ -39,6 +39,16 @@ if (!routesResult.success) {
 // Copy landing CSS (static asset for npm)
 await Bun.write("dist/landing/tokens.css", Bun.file("src/landing/tokens.css"));
 
+// Copy package.json for npm publish (strip dev fields)
+const pkg = await Bun.file("package.json").json();
+delete pkg.scripts;
+delete pkg.devDependencies;
+delete pkg.peerDependencies;
+await Bun.write("dist/package.json", JSON.stringify(pkg, null, 2) + "\n");
+
+// Copy README
+await Bun.write("dist/README.md", Bun.file("README.md"));
+
 console.log("✓ dist/ built (npm)");
 
 // --- CF Pages build ---

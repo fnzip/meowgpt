@@ -26,8 +26,6 @@ jobs:
 
       - run: bun test
 
-      - run: bun scripts/generate-tokens.ts
-
       - run: bun scripts/build.ts
 
       - uses: JS-DevTools/npm-publish@v3
