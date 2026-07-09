@@ -40,6 +40,12 @@ function buildResponseContent(req: ChatCompletionRequest): string {
   return `Got it! You mentioned "${userContent.slice(0, 40)}${userContent.length > 40 ? "..." : ""}". Meow meow 🐱`;
 }
 
+interface Usage {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+}
+
 interface ChatCompletionChoice {
   index: number;
   message: {
@@ -55,6 +61,7 @@ interface ChatCompletionResponse {
   created: number;
   model: string;
   choices: ChatCompletionChoice[];
+  usage: Usage;
 }
 
 interface ChatCompletionChunk {
@@ -70,6 +77,25 @@ interface ChatCompletionChunk {
     };
     finish_reason: "stop" | null;
   }[];
+  usage?: Usage;
+}
+
+function countTokens(text: string): number {
+  // ~4 chars per token for English text
+  return Math.max(1, Math.ceil(text.length / 4));
+}
+
+function computeUsage(req: ChatCompletionRequest, responseContent: string): Usage {
+  const promptText = req.messages
+    .map((m) => (typeof m.content === "string" ? m.content : ""))
+    .join(" ");
+  const promptTokens = countTokens(promptText);
+  const completionTokens = countTokens(responseContent);
+  return {
+    prompt_tokens: promptTokens,
+    completion_tokens: completionTokens,
+    total_tokens: promptTokens + completionTokens,
+  };
 }
 
 function sleep(ms: number): Promise<void> {
@@ -79,6 +105,7 @@ function sleep(ms: number): Promise<void> {
 export async function buildChatCompletion(
   req: ChatCompletionRequest
 ): Promise<ChatCompletionResponse> {
+  const content = buildResponseContent(req);
   const delay = getDelay(req);
   if (delay > 0) await sleep(delay);
 
@@ -92,11 +119,12 @@ export async function buildChatCompletion(
         index: 0,
         message: {
           role: "assistant",
-          content: buildResponseContent(req),
+          content,
         },
         finish_reason: "stop",
       },
     ],
+    usage: computeUsage(req, content),
   };
 }
 
@@ -105,6 +133,7 @@ export async function* streamChatCompletion(
 ): AsyncGenerator<ChatCompletionChunk> {
   const content = buildResponseContent(req);
   const chunkDelay = getChunkDelay(req);
+  const usage = computeUsage(req, content);
 
   // Initial thinking delay
   await sleep(chunkDelay * 2);
@@ -122,6 +151,7 @@ export async function* streamChatCompletion(
         finish_reason: null,
       },
     ],
+    usage,
   };
 
   await sleep(chunkDelay);
@@ -147,12 +177,13 @@ export async function* streamChatCompletion(
           finish_reason: null,
         },
       ],
+      usage,
     };
   }
 
   await sleep(chunkDelay);
 
-  // Final chunk with finish_reason
+  // Final chunk with finish_reason + usage
   yield {
     id: MOCK_ID,
     object: "chat.completion.chunk",
@@ -165,5 +196,6 @@ export async function* streamChatCompletion(
         finish_reason: "stop",
       },
     ],
+    usage,
   };
 }
