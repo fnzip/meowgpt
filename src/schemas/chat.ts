@@ -38,6 +38,7 @@ export const chatCompletionRequestSchema = z.object({
   frequency_penalty: z.number().optional(),
   logit_bias: z.record(z.string(), z.number()).optional(),
   user: z.string().optional(),
+  delay_ms: z.number().int().min(0).max(10000).optional(),
 });
 
 export type ChatCompletionRequest = z.input<typeof chatCompletionRequestSchema>;

@@ -8,11 +8,11 @@ const DEFAULT_DELAY_MS = 300;
 const DEFAULT_CHUNK_DELAY_MS = 80;
 
 function getDelay(req: ChatCompletionRequest): number {
-  return DEFAULT_DELAY_MS;
+  return req.delay_ms ?? DEFAULT_DELAY_MS;
 }
 
 function getChunkDelay(req: ChatCompletionRequest): number {
-  return DEFAULT_CHUNK_DELAY_MS;
+  return req.delay_ms != null ? Math.max(10, req.delay_ms / 4) : DEFAULT_CHUNK_DELAY_MS;
 }
 
 function buildResponseContent(req: ChatCompletionRequest): string {

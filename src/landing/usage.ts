@@ -38,6 +38,8 @@ console.log(chat.choices[0].message.content);</pre></div>
           <pre>Meow meow 🐱</pre>
         </div>
 
+        <p style="margin-top:var(--space-md);font-size:0.8125rem;color:var(--color-ink-faint)">Add <code>delay_ms</code> to control response latency. Default 300ms. Set to 0 for instant CI responses.</p>
+
         <h3>curl</h3>
         <div class="code-frame">
           <div class="code-frame-header">

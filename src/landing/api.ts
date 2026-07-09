@@ -53,9 +53,12 @@ export function renderApi(): string {
   ],
   "stream": false,               // optional, default false
   "temperature": 0.7,            // optional
-  "max_tokens": 256              // optional
+  "max_tokens": 256,             // optional
+  "delay_ms": 300                // optional, 0-10000. Simulates thinking delay
 }</pre></div>
         </div>
+
+        <p><code>delay_ms</code> controls response latency. Default 300ms. Set to 0 for instant responses in CI. In streaming mode, chunk delay = <code>delay_ms / 4</code> per token with jitter.</p>
 
         <h3>Response</h3>
         <div class="response-block">
