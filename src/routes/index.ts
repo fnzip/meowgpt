@@ -6,14 +6,18 @@ import { imageGenerationRequestSchema } from "../schemas/image";
 import { buildChatCompletion, streamChatCompletion } from "../handlers/chat";
 import { buildModelsResponse } from "../handlers/models";
 import { buildImageGeneration } from "../handlers/image";
-import { renderLandingPage } from "../landing/page";
+import { renderHome } from "../landing/home";
+import { renderInstall } from "../landing/install";
+import { renderUsage } from "../landing/usage";
+import { renderApi } from "../landing/api";
 
 const app = new Hono();
 
-// Landing page
-app.get("/", (c) => {
-  return c.html(renderLandingPage());
-});
+// Landing pages
+app.get("/", (c) => c.html(renderHome()));
+app.get("/install", (c) => c.html(renderInstall()));
+app.get("/usage", (c) => c.html(renderUsage()));
+app.get("/api", (c) => c.html(renderApi()));
 
 // Static CSS for landing
 app.get("/landing/tokens.css", async (c) => {
