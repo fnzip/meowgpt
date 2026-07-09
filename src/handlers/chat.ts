@@ -45,6 +45,11 @@ const MEOW_REPLIES = [
   "Meow!",
   "Mrrrrow?",
   "Meow meow meow!",
+  "*stretches lazily* meow",
+  "Mew mew mew!",
+  "*curls up* prrrrr",
+  "Meow? *tilts head*",
+  "Mrrp!",
 ];
 
 const GREETING_REPLIES = [
@@ -53,6 +58,11 @@ const GREETING_REPLIES = [
   "Oh hi! *purrs*",
   "Hello! Ready to build something?",
   "Meow! What can I help with today?",
+  "*perks ears* Oh, hello!",
+  "Well hello there! *tail swish*",
+  "Hi hi! *rubs against your leg* meow",
+  "Greetings, human! Meow",
+  "*wakes from nap* oh, hi! Meow",
 ];
 
 const QUESTION_REPLIES = [
@@ -61,6 +71,11 @@ const QUESTION_REPLIES = [
   "Good one! The answer is probably 42. Or meow.",
   "You ask the tough questions! Meow meow",
   "Let me consult the cat council... they say meow",
+  "*squints thoughtfully* That depends... on how many treats are involved",
+  "Excellent question! *washes paw while thinking* Meow",
+  "Hmm, let me nap on it... zzz... oh! Meow!",
+  "The ancient cats once pondered this too. Their answer: meow",
+  "Tricky! *chases tail for a bit* Okay, meow",
 ];
 
 const THANKS_REPLIES = [
@@ -68,6 +83,10 @@ const THANKS_REPLIES = [
   "Anytime! *happy purr*",
   "No problem at all! Meow meow",
   "Aw thanks for saying thanks!",
+  "*purrs loudly* you're very welcome!",
+  "Of course! *slow blink* (that means I like you)",
+  "My pleasure! *kneads the air* meow",
+  "Don't mention it! *rolls over* meow",
 ];
 
 const LAUGH_REPLIES = [
@@ -75,6 +94,10 @@ const LAUGH_REPLIES = [
   "Glad I could make you laugh!",
   "Meow haha! You're fun",
   "*purrs in amusement*",
+  "*falls over laughing* meow meow meow!",
+  "You got me! *giggles in cat*",
+  "Haha! *chases own tail in celebration*",
+  "That's a good one! *purr-chuckles*",
 ];
 
 const CAT_REPLIES = [
@@ -83,6 +106,11 @@ const CAT_REPLIES = [
   "Purrrrr... you get it",
   "Meow! That's my favorite word",
   "Mrow! *tail flick*",
+  "*ears perk up* Did someone say meow?",
+  "Finally, someone who understands! Meow meow!",
+  "*circles your feet* mew mew mew!",
+  "The council of cats approves your message. Meow.",
+  "*purrs aggressively* YES. Meow.",
 ];
 
 const LONG_REPLIES = [
@@ -90,6 +118,12 @@ const LONG_REPLIES = [
   "That's quite a lot to take in! Let me digest that... Meow!",
   "I appreciate the thorough explanation. My considered response: meow meow",
   "Wow, that's comprehensive! After careful analysis: meow",
+  "*reads carefully, tail twitching* Fascinating. Meow.",
+  "You've given me much to think about. *circles three times, sits* Meow.",
+  "I read every word. *slow blink* My verdict: meow meow",
+  "That's a lot of words! *pushes glass off table* Meow.",
+  "*nods sagely* I have considered all points. Meow.",
+  "Thorough! *stretches* Here's my executive summary: meow",
 ];
 
 const ECHO_REPLIES = [
@@ -99,6 +133,12 @@ const ECHO_REPLIES = [
   'Hmm, "{msg}". Noted! Meow meow',
   'You mentioned "{msg}". Fascinating! Meow',
   'Right, "{msg}". I am on it! Meow',
+  '"{msg}" - *tilts head* meow?',
+  'Oh! "{msg}"! *perks up* meow meow',
+  'Interesting... "{msg}". *washes face* meow',
+  '"{msg}" - got it! *tail swish* meow',
+  'Noted: "{msg}". Adding to my cat-log. Meow.',
+  '"{msg}" huh? *sniffs the air* meow',
 ];
 
 function buildResponseContent(req: ChatCompletionRequest): string {
