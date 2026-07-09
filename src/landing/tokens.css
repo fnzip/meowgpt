@@ -159,9 +159,9 @@ body {
 /* Hero */
 .hero {
   padding: var(--space-4xl) var(--space-xl) var(--space-3xl);
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
 }
 
 .hero-badge {
@@ -196,14 +196,13 @@ body {
   font-size: 1.125rem;
   line-height: 1.65;
   color: var(--color-ink-muted);
-  max-width: 560px;
-  margin: 0 auto var(--space-xl);
+  max-width: 600px;
+  margin: 0 0 var(--space-xl);
 }
 
 .hero-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--space-md);
   flex-wrap: wrap;
 }
@@ -464,8 +463,9 @@ body {
 /* Page hero — sub-page header */
 .page-hero {
   padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
+  text-align: left;
 }
 
 .page-hero h1 {
