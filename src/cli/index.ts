@@ -40,9 +40,15 @@ const options: { host?: string; port?: number } = {};
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--host" && i + 1 < args.length) {
-    options.host = args[++i];
+    const host = args[++i];
+    if (host) options.host = host;
   } else if (args[i] === "--port" && i + 1 < args.length) {
-    const port = parseInt(args[++i], 10);
+    const portStr = args[++i];
+    if (!portStr) {
+      console.error("Invalid port number");
+      process.exit(1);
+    }
+    const port = parseInt(portStr, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
       console.error("Invalid port number");
       process.exit(1);
