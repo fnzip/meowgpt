@@ -5,7 +5,7 @@ export function renderHome(): string {
     "OpenAI-compatible mock server",
     `
     <section class="hero">
-      <div class="hero-badge">v0.1.0</div>
+      <div class="hero-badge">v0.1.1</div>
       <h1>An OpenAI-compatible<br /><em>mock server</em> for dev &amp; test</h1>
       <p class="hero-lede">Point any OpenAI SDK at MeowGPT by changing only the <code>baseURL</code>. Deterministic responses, zero config, cold start in milliseconds. Built for SDK testing, CI pipelines, and agent development.</p>
       <div class="hero-actions">

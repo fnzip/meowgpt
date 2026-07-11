@@ -18,9 +18,13 @@ export function renderInstall(): string {
             <span class="code-frame-label">terminal</span>
           </div>
           <div class="code-frame-body"><pre>$ bun add meowgpt
-$ meowgpt serve
+$ meowgpt
 
-🐱 MeowGPT server running at http://localhost:8787</pre></div>
+    /\\_/\\
+   ( o.o )   🐱  MeowGPT
+    > ^ <     OpenAI-compatible mock server
+
+  Server running at:  http://localhost:8787/v1</pre></div>
         </div>
       </div>
 
@@ -32,14 +36,14 @@ $ meowgpt serve
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
             <span class="code-frame-label">terminal</span>
           </div>
-          <div class="code-frame-body"><pre>$ meowgpt serve --host 0.0.0.0 --port 8080
+          <div class="code-frame-body"><pre>$ meowgpt --host 0.0.0.0 --port 8080
 $ meowgpt -v
-0.1.0
+0.1.1
 $ meowgpt -h
 🐱 MeowGPT — OpenAI-compatible mock server
 
 Usage:
-  meowgpt serve [options]
+  meowgpt [options]
   meowgpt -h, --help
   meowgpt -v, --version</pre></div>
         </div>

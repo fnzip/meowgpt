@@ -23,7 +23,7 @@ export function renderUsage(): string {
 
 const client = new OpenAI({
   apiKey: "meow",
-  baseURL: "http://localhost:8787/v1",
+  baseURL: "https://meowgpt.alfian.dev/v1",
 });
 
 const chat = await client.chat.completions.create({
@@ -46,7 +46,7 @@ console.log(chat.choices[0].message.content);</pre></div>
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
             <span class="code-frame-label">terminal</span>
           </div>
-          <div class="code-frame-body"><pre>$ curl http://localhost:8787/v1/chat/completions \\
+          <div class="code-frame-body"><pre>$ curl https://meowgpt.alfian.dev/v1/chat/completions \\
   -H "Content-Type: application/json" \\
   -d '{"model":"meowgpt","messages":[{"role":"user","content":"hello"}]}'
 
@@ -109,7 +109,7 @@ console.log(image.data[0].url);
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
             <span class="code-frame-label">terminal</span>
           </div>
-          <div class="code-frame-body"><pre>$ curl http://localhost:8787/v1/models
+          <div class="code-frame-body"><pre>$ curl https://meowgpt.alfian.dev/v1/models
 
 {
   "object": "list",

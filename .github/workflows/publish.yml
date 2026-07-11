@@ -28,8 +28,12 @@ jobs:
 
       - run: bun scripts/build.ts
 
-      - uses: JS-DevTools/npm-publish@v3
+      - uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.NPM_TOKEN }}
-          package: dist
-          access: public
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm publish --provenance --access public
+        working-directory: dist
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,6 +1,6 @@
 {
   "name": "meowgpt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenAI-compatible mock server for development and testing",
   "type": "module",
   "license": "MIT",
@@ -12,8 +12,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "bun run src/cli/index.ts serve",
-    "start": "bun run src/cli/index.ts serve",
+    "dev": "bun run src/cli/index.ts",
+    "start": "bun run src/cli/index.ts",
     "test": "bun test",
     "deploy": "wrangler pages deploy pages-dist --project-name=meowgpt",
     "typecheck": "tsc --noEmit",

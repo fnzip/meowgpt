@@ -19,7 +19,7 @@ export function renderApi(): string {
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
             <span class="code-frame-label">terminal</span>
           </div>
-          <div class="code-frame-body"><pre>$ curl http://localhost:8787/v1/models</pre></div>
+          <div class="code-frame-body"><pre>$ curl https://meowgpt.alfian.dev/v1/models</pre></div>
         </div>
         <div class="response-block">
           <div class="response-block-label">200 OK</div>
