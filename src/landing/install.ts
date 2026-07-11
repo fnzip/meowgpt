@@ -60,7 +60,7 @@ $ bun meowgpt</pre></div>
           </div>
           <div class="code-frame-body"><pre>$ meowgpt --host 0.0.0.0 --port 8080
 $ meowgpt -v
-0.1.1
+0.1.3
 $ meowgpt -h
 🐱 MeowGPT — OpenAI-compatible mock server
 

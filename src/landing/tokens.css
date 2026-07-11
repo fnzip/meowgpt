@@ -600,6 +600,10 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+
   .code-frame-body {
     padding: var(--space-sm);
   }
