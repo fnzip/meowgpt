@@ -7,7 +7,7 @@ export function renderInstall(): string {
     <section class="page-hero">
       <div class="workbench-label">01 — Install</div>
       <h1>One command, zero config</h1>
-      <p class="hero-lede">MeowGPT runs on Bun. Install it, start it, and you're ready to go. No API keys, no database, no external services.</p>
+      <p class="hero-lede">MeowGPT runs on Bun. No install needed — just <code>bunx meowgpt</code>. Or add it to your project. No API keys, no database, no external services.</p>
     </section>
 
     <section class="workbench">
@@ -17,20 +17,42 @@ export function renderInstall(): string {
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
             <span class="code-frame-label">terminal</span>
           </div>
-          <div class="code-frame-body"><pre>$ bun add meowgpt
-$ meowgpt
+          <div class="code-frame-body"><pre>$ bunx meowgpt
 
     /\\_/\\
    ( o.o )   🐱  MeowGPT
     > ^ <     OpenAI-compatible mock server
 
-  Server running at:  http://localhost:8787/v1</pre></div>
+  Local:              http://localhost:8787/v1
+  Hosted:             https://meowgpt.alfian.dev/v1
+
+  Endpoints:
+    GET  /v1/models
+    POST /v1/chat/completions
+    POST /v1/images/generations
+
+  Use in your AI agent / OpenAI client:
+    baseURL: "http://localhost:8787/v1"
+    apiKey:  "meow" (any value works)</pre></div>
+        </div>
+      </div>
+
+      <div class="workbench-section">
+        <h2>Or add to your project</h2>
+        <p>Install as a dev dependency for CI pipelines and local testing.</p>
+        <div class="code-frame">
+          <div class="code-frame-header">
+            <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
+            <span class="code-frame-label">terminal</span>
+          </div>
+          <div class="code-frame-body"><pre>$ bun add -d meowgpt
+$ bun meowgpt</pre></div>
         </div>
       </div>
 
       <div class="workbench-section">
         <h2>CLI options</h2>
-        <p>Customize host and port, or check the version.</p>
+        <p>Customize host and port, or check the version. No subcommands — just run it.</p>
         <div class="code-frame">
           <div class="code-frame-header">
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
@@ -45,13 +67,30 @@ $ meowgpt -h
 Usage:
   meowgpt [options]
   meowgpt -h, --help
-  meowgpt -v, --version</pre></div>
+  meowgpt -v, --version
+
+Options:
+  --host      Host to bind (default: localhost)
+  --port      Port to bind (default: 8787)
+  -h, --help  Show this help
+  -v, --version  Show version</pre></div>
+        </div>
+      </div>
+
+        <h2>No install? Use the hosted version</h2>
+        <p>Point your OpenAI client at <code>https://meowgpt.alfian.dev/v1</code>. Always available, zero setup.</p>
+        <div class="code-frame">
+          <div class="code-frame-header">
+            <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
+            <span class="code-frame-label">terminal</span>
+          </div>
+          <div class="code-frame-body"><pre>$ curl https://meowgpt.alfian.dev/v1/models</pre></div>
         </div>
       </div>
 
       <div class="workbench-section">
         <h2>Cloudflare Workers</h2>
-        <p>Deploy to Cloudflare with a single command. The same codebase runs locally and on the edge.</p>
+        <p>Deploy your own instance to Cloudflare with a single command.</p>
         <div class="code-frame">
           <div class="code-frame-header">
             <span class="code-frame-dot"></span><span class="code-frame-dot"></span><span class="code-frame-dot"></span>
